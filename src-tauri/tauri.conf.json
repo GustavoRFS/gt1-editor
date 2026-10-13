@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "GT-1 Editor",
+  "version": "0.1.0",
+  "identifier": "dev.gt1editor.app",
+  "build": {
+    "beforeDevCommand": "npm run web",
+    "devUrl": "http://localhost:8081",
+    "beforeBuildCommand": "npm run export:web",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "GT-1 Editor",
+        "width": 1180,
+        "height": 820,
+        "minWidth": 720,
+        "minHeight": 560,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all"
+  }
+}

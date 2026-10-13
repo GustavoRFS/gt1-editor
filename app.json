@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "GT-1 Editor",
+    "slug": "gt1-editor",
+    "scheme": "gt1editor",
+    "version": "0.1.0",
+    "orientation": "default",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "plugins": [
+      "expo-router",
+      "expo-dev-client",
+      "expo-document-picker",
+      "expo-file-system"
+    ],
+    "android": {
+      "package": "dev.gt1editor.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "autolinking": {
+      "nativeModulesDir": "./modules"
+    }
+  }
+}

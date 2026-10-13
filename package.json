@@ -1,0 +1,39 @@
+{
+  "name": "gt1-editor",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "main": "expo-router/entry",
+  "scripts": {
+    "android": "expo start --android",
+    "web": "expo start --web --port 8081",
+    "export:web": "expo export -p web",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "~57.0.16",
+    "@tauri-apps/api": "^2.12.3",
+    "@tauri-apps/plugin-dialog": "^2.8.2",
+    "@tauri-apps/plugin-fs": "^2.7.0",
+    "expo": "~57.0.0",
+    "expo-constants": "~57.0.21",
+    "expo-dev-client": "~57.0.0",
+    "expo-document-picker": "~57.0.0",
+    "expo-file-system": "~57.0.0",
+    "expo-linking": "~57.0.12",
+    "expo-router": "~57.0.26",
+    "expo-sharing": "~57.0.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.0",
+    "react-native-safe-area-context": "~5.6.2",
+    "react-native-screens": "~4.26.0",
+    "react-native-web": "0.21.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.12.2",
+    "@types/react": "~19.2.2",
+    "typescript": "~5.9.2"
+  }
+}
