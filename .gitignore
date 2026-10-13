@@ -3,9 +3,9 @@ node_modules/
 dist/
 .expo/
 .expo-shared/
-target/
+/target/
 src-tauri/target/
 src-tauri/gen/
-android/
-ios/
+/android/
+/ios/
 *.log

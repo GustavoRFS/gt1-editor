@@ -10,6 +10,7 @@ export interface MidiTransport {
   disconnect(): Promise<void>;
   sendSysEx(bytes: Uint8Array): Promise<void>;
   onSysEx(listener: (bytes: Uint8Array) => void): () => void;
+  onDisconnect?(listener: () => void): () => void;
 }
 
 export { createMidiTransport } from './platformTransport';

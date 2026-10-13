@@ -6,6 +6,7 @@
   "main": "expo-router/entry",
   "scripts": {
     "android": "expo start --android",
+    "android:prebuild": "expo prebuild --platform android",
     "web": "expo start --web --port 8081",
     "export:web": "expo export -p web",
     "tauri:dev": "tauri dev",

@@ -11,7 +11,8 @@
       "expo-router",
       "expo-dev-client",
       "expo-document-picker",
-      "expo-file-system"
+      "expo-file-system",
+      "./plugins/with-usb-host"
     ],
     "android": {
       "package": "dev.gt1editor.app"

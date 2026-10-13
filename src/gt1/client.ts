@@ -24,12 +24,14 @@ export class Gt1Client {
       let idleTimer: ReturnType<typeof setTimeout> | undefined;
       let timeout: ReturnType<typeof setTimeout> | undefined;
       let unsubscribe: () => void = () => {};
+      let unsubscribeDisconnect: () => void = () => {};
       let settled = false;
 
       const cleanup = () => {
         if (idleTimer) clearTimeout(idleTimer);
         if (timeout) clearTimeout(timeout);
         unsubscribe();
+        unsubscribeDisconnect();
       };
       const finish = (error?: unknown, patch?: Gt1Patch) => {
         if (settled) return;
@@ -62,6 +64,7 @@ export class Gt1Client {
         }
         idleTimer = setTimeout(tryDecode, PATCH_READ_IDLE_MS);
       });
+      unsubscribeDisconnect = this.transport.onDisconnect?.(() => finish(new Gt1ProtocolError('incomplete-patch', 'A GT-1 foi desconectada antes do patch completo.'))) ?? (() => {});
       timeout = setTimeout(() => finish(new Gt1ProtocolError('incomplete-patch', 'Tempo esgotado aguardando o patch completo da GT-1.')), PATCH_READ_TIMEOUT_MS);
 
       void this.transport.sendSysEx(encodeReadRequest(unitId)[0]).catch((error) => finish(error));
