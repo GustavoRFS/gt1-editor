@@ -43,10 +43,10 @@
 - Consumes: a pasta de projeto vazia e o contrato de build descrito na especificação.
 - Produces: `npm run web` serve o Expo web em `http://localhost:8081`; `npm run export:web` gera `dist`; `npm run tauri:dev` inicia Tauri sobre esse frontend; `npm run tauri:build` empacota o export web.
 
-- [ ] Criar o scaffold TypeScript do Expo SDK 57 com Expo Router, fixar Node 24 em `.nvmrc`, adotar npm e registrar dependências no lockfile.
-- [ ] Configurar `app.json`, TypeScript e Metro para os targets Android e web e criar a tela inicial adaptável do editor.
-- [ ] Inicializar Tauri 2 e configurar `frontendDist: "../dist"`, `beforeBuildCommand: "npm run export:web"`, `beforeDevCommand: "npm run web"` e `devUrl: "http://localhost:8081"`.
-- [ ] Adicionar scripts npm para Expo Android, Expo web, export web e CLI Tauri; registrar no README os comandos de desenvolvimento.
+- [x] Criar o scaffold TypeScript do Expo SDK 57 com Expo Router, fixar Node 24 em `.nvmrc`, adotar npm e registrar dependências no lockfile.
+- [x] Configurar `app.json`, TypeScript e Metro para os targets Android e web e criar a tela inicial adaptável do editor.
+- [x] Inicializar Tauri 2 e configurar `frontendDist: "../dist"`, `beforeBuildCommand: "npm run export:web"`, `beforeDevCommand: "npm run web"` e `devUrl: "http://localhost:8081"`.
+- [x] Adicionar scripts npm para Expo Android, Expo web, export web e CLI Tauri; registrar no README os comandos de desenvolvimento.
 
 ### Task 2: Auditar e portar o protocolo GT-1
 
@@ -58,12 +58,12 @@
 - Consumes: fontes `SysxIO.cpp`, `midiIO.cpp`, `midi.xml`, utilitários de arquivo e tabelas/controles do FxFloorBoard fornecido.
 - Produces: `Gt1Patch`, `Gt1ParameterDefinition`, `encodeReadRequest(unitId: number): Uint8Array[]`, `decodePatchResponse(frames: Uint8Array[]): Gt1Patch`, `encodePatchWrite(patch: Gt1Patch, unitId: number): Uint8Array[]`, `parsePatchFile(name: string, bytes: Uint8Array): Gt1Patch[]` e `serializePatchFile(format: "syx" | "mid" | "gcl", patches: Gt1Patch[]): Uint8Array`.
 
-- [ ] Registrar no documento de protocolo o cabeçalho, unit ID padrão, handshake, endereços, checagem de checksum, fragmentação, operações de leitura/escrita e formatos de arquivo confirmados na fonte.
-- [ ] Verificar os avisos/licenças da fonte antes de portar código e registrar a procedência e atribuições necessárias.
-- [ ] Modelar patches e metadados dos parâmetros com identificador estável, endereço, limite/faixa, tipo de controle e rótulos de enumeração extraídos da fonte.
-- [ ] Implementar codificação/decodificação SysEx e validar tamanho, cabeçalho, terminador e checksum antes de expor um patch.
-- [ ] Implementar leitura e gravação por uma fila serializada, correlacionando resposta com operação pendente e usando timeout documentado/configurado.
-- [ ] Implementar importação/exportação `.syx`, `.mid` e `.gcl` somente segundo os layouts e limites confirmados na fonte.
+- [x] Registrar no documento de protocolo o cabeçalho, unit ID padrão, handshake, endereços, checagem de checksum, fragmentação, operações de leitura/escrita e formatos de arquivo confirmados na fonte.
+- [x] Verificar os avisos/licenças da fonte antes de portar código e registrar a procedência e atribuições necessárias.
+- [x] Modelar patches e metadados dos parâmetros com identificador estável, endereço, limite/faixa, tipo de controle e rótulos de enumeração extraídos da fonte.
+- [x] Implementar codificação/decodificação SysEx e validar tamanho, cabeçalho, terminador e checksum antes de expor um patch.
+- [x] Implementar leitura e gravação por uma fila serializada, correlacionando resposta com operação pendente e usando timeout documentado/configurado.
+- [x] Implementar importação/exportação `.syx`, `.mid` e `.gcl` somente segundo os layouts e limites confirmados na fonte.
 
 ### Task 3: Contrato MIDI compartilhado e backend Tauri/Linux
 
@@ -76,13 +76,13 @@
 - Consumes: os tipos/protocolo de `src/gt1` e Tauri 2.
 - Produces: `MidiTransport` com `listDevices(): Promise<MidiDevice[]>`, `connect(deviceId: string): Promise<void>`, `disconnect(): Promise<void>`, `sendSysEx(bytes: Uint8Array): Promise<void>` e `onSysEx(listener: (bytes: Uint8Array) => void): () => void`; `Gt1Client.readCurrentPatch(unitId: number): Promise<Gt1Patch>`, `writePatch(patch: Gt1Patch, unitId: number): Promise<void>` e `setParameter(patch: Gt1Patch, parameterId: string, value: number): Promise<Gt1Patch>`; comandos Tauri tipados e evento `gt1-sysex`.
 
-- [ ] Definir `MidiDevice = { id: string; name: string }` e `MidiTransport` em TypeScript conforme a especificação, mantendo o ID do dispositivo opaco para a UI.
-- [ ] Implementar enumeração, pareamento de portas de entrada/saída, conexão persistente, envio de SysEx e callbacks de entrada em Rust com `midir` 0.11.0 usando ALSA no Linux.
-- [ ] Converter `Uint8Array` em `number[]` na fronteira IPC e reagrupar fragmentos SysEx no callback Rust antes de emitir eventos `gt1-sysex` completos.
-- [ ] Implementar o adaptador web via `@tauri-apps/api`; detectar Tauri antes de carregar chamadas nativas e retornar indisponibilidade MIDI em navegador comum.
-- [ ] Expor comandos Rust `list_midi_devices() -> Vec<MidiDevice>`, `connect_midi(device_id: String) -> Result<(), MidiError>`, `disconnect_midi() -> Result<(), MidiError>` e `send_sysex(data: Vec<u8>) -> Result<(), MidiError>`.
-- [ ] Implementar `Gt1Client` sobre `MidiTransport`, serializando operações e entregando `readCurrentPatch`, `writePatch` e `setParameter` para a UI.
-- [ ] Traduzir erros ALSA, porta ausente e desconexão em erros tipados consumíveis pela UI.
+- [x] Definir `MidiDevice = { id: string; name: string }` e `MidiTransport` em TypeScript conforme a especificação, mantendo o ID do dispositivo opaco para a UI.
+- [x] Implementar enumeração, pareamento de portas de entrada/saída, conexão persistente, envio de SysEx e callbacks de entrada em Rust com `midir` 0.11.0 usando ALSA no Linux.
+- [x] Converter `Uint8Array` em `number[]` na fronteira IPC e reagrupar fragmentos SysEx no callback Rust antes de emitir eventos `gt1-sysex` completos.
+- [x] Implementar o adaptador web via `@tauri-apps/api`; detectar Tauri antes de carregar chamadas nativas e retornar indisponibilidade MIDI em navegador comum.
+- [x] Expor comandos Rust `list_midi_devices() -> Vec<MidiDevice>`, `connect_midi(device_id: String) -> Result<(), MidiError>`, `disconnect_midi() -> Result<(), MidiError>` e `send_sysex(data: Vec<u8>) -> Result<(), MidiError>`.
+- [x] Implementar `Gt1Client` sobre `MidiTransport`, serializando operações e entregando `readCurrentPatch`, `writePatch` e `setParameter` para a UI.
+- [x] Traduzir erros ALSA, porta ausente e desconexão em erros tipados consumíveis pela UI.
 
 ### Task 4: Módulo MIDI Android em Kotlin
 
@@ -96,11 +96,11 @@
 - Consumes: `MidiTransport`, `MidiDevice`, e chamadas do protocolo compartilhado.
 - Produces: módulo local `Gt1Midi` com `listDevices(): Promise<MidiDevice[]>`, `connect(deviceId: string): Promise<void>`, `disconnect(): Promise<void>`, `sendSysEx(bytes: number[]): Promise<void>` e evento JS `onSysEx(bytes: number[])`.
 
-- [ ] Criar módulo Expo local em Kotlin com a Expo Modules API e conectá-lo ao projeto por autolinking.
-- [ ] Usar `MidiManager` para listar dispositivos USB MIDI, abrir as portas de entrada/saída, enviar SysEx e fechar recursos ao desconectar ou encerrar o app.
-- [ ] Tratar portas ausentes, abertura negada, remoção USB e callbacks concorrentes com erros/eventos tipados.
-- [ ] Reagrupar fragmentos recebidos pelo `MidiReceiver` em mensagens SysEx completas antes de emitir `onSysEx`.
-- [ ] Implementar `transport.android.ts` sobre o módulo e documentar que o fluxo de desenvolvimento exige development build próprio.
+- [x] Criar módulo Expo local em Kotlin com a Expo Modules API e conectá-lo ao projeto por autolinking.
+- [x] Usar `MidiManager` para listar dispositivos USB MIDI, abrir as portas de entrada/saída, enviar SysEx e fechar recursos ao desconectar ou encerrar o app.
+- [x] Tratar portas ausentes, abertura negada, remoção USB e callbacks concorrentes com erros/eventos tipados.
+- [x] Reagrupar fragmentos recebidos pelo `MidiReceiver` em mensagens SysEx completas antes de emitir `onSysEx`.
+- [x] Implementar `transport.android.ts` sobre o módulo e documentar que o fluxo de desenvolvimento exige development build próprio.
 
 ### Task 5: UI compartilhada de conexão e edição
 
@@ -112,11 +112,11 @@
 - Consumes: contrato MIDI, cliente GT-1, modelo de patch e catálogo de parâmetros das tarefas 2–4.
 - Produces: fluxo comum para escolher dispositivo, conectar/desconectar, ler patch, editar parâmetros e enviar/gravar alterações.
 
-- [ ] Construir painel de conexão que mostre dispositivos, estado conectado, carregamento e erro sem exigir código específico de plataforma.
-- [ ] Renderizar editor genérico por grupos/blocos e metadados do catálogo: controles numéricos para faixas e seletores para enums.
-- [ ] Separar patch carregado do patch alterado localmente e indicar claramente se há alterações ainda não enviadas.
-- [ ] Conectar as ações de leitura, envio de parâmetro e gravação aos workflows confirmados no código FxFloorBoard.
-- [ ] Aplicar layout adaptável para tela Android estreita e janela desktop ampla usando os mesmos componentes React Native.
+- [x] Construir painel de conexão que mostre dispositivos, estado conectado, carregamento e erro sem exigir código específico de plataforma.
+- [x] Renderizar editor genérico por grupos/blocos e metadados do catálogo: controles numéricos para faixas e seletores para enums.
+- [x] Separar patch carregado do patch alterado localmente e indicar claramente se há alterações ainda não enviadas.
+- [x] Conectar as ações de leitura, envio de parâmetro e gravação aos workflows confirmados no código FxFloorBoard.
+- [x] Aplicar layout adaptável para tela Android estreita e janela desktop ampla usando os mesmos componentes React Native.
 
 ### Task 6: Importar, exportar e documentar a instalação
 
@@ -129,11 +129,11 @@
 - Consumes: codecs `parsePatchFile`/`serializePatchFile` e o estado do editor.
 - Produces: `openPatchFile(): Promise<{ name: string; bytes: Uint8Array } | null>` e `savePatchFile(fileName: string, bytes: Uint8Array): Promise<void>` para Android e Tauri, com cancelamento do seletor tratado sem erro.
 
-- [ ] Implementar seleção de arquivos no Android com Expo DocumentPicker/FileSystem e exportação de arquivo temporário pela folha de compartilhamento Expo Sharing.
-- [ ] Adicionar os plugins Tauri Dialog e File System para abrir/salvar arquivos no Linux; limitar capabilities às operações e caminhos necessários.
-- [ ] Ligar os seletores aos codecs e ao editor, preservando vários patches de arquivos em lote e mantendo a extensão/formato escolhido.
-- [ ] Documentar requisitos Linux do Tauri, Node 24 LTS, npm, development build Android, cabo USB-C host/OTG e alimentação da pedaleira.
-- [ ] Documentar que a validação final de comunicação depende de testar com GT-1 física e um dispositivo Android host/OTG; nenhum comportamento de hardware será declarado funcional apenas por build desktop.
+- [x] Implementar seleção de arquivos no Android com Expo DocumentPicker/FileSystem e exportação de arquivo temporário pela folha de compartilhamento Expo Sharing.
+- [x] Adicionar os plugins Tauri Dialog e File System para abrir/salvar arquivos no Linux; limitar capabilities às operações e caminhos necessários.
+- [x] Ligar os seletores aos codecs e ao editor, preservando vários patches de arquivos em lote e mantendo a extensão/formato escolhido.
+- [x] Documentar requisitos Linux do Tauri, Node 24 LTS, npm, development build Android, cabo USB-C host/OTG e alimentação da pedaleira.
+- [x] Documentar que a validação final de comunicação depende de testar com GT-1 física e um dispositivo Android host/OTG; nenhum comportamento de hardware será declarado funcional apenas por build desktop.
 
 ## Referências técnicas
 
