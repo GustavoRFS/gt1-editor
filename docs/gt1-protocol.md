@@ -6,7 +6,7 @@ Este documento registra o protocolo portado de `SysxIO.cpp`, `midiIO.cpp`, `Midi
 
 - O cabeçalho usa fabricante Roland `41`, modelo GT-1 identificado no mapa como `00 00 60` e comandos RQ1 `11` (pedido) e DT1 `12` (dados).
 - A forma do cabeçalho é `F0 41 <device-id> 00 00 60 <command> <address:4> <data...> <checksum> F7`.
-- O Device ID aceito pelo mapa é `00` a `1F`. A documentação do FxFloorBoard chama a configuração de fábrica de “1”; seu formato interno começa em `00`. O app usa protocolo `00` como padrão e deixa o Device ID explícito na conexão.
+- O Device ID aceito pelo mapa é `00` a `1F`. A documentação do FxFloorBoard chama a configuração de fábrica de “1”; seu formato interno começa em `00`. O cliente usa `00` como padrão; a primeira versão da interface não expõe um seletor de Device ID.
 - O buffer temporário de patch começa no endereço `60 00`. Cada bloco de dados tem 128 bytes e o patch FxFloorBoard é convertido em 17 blocos, endereçados pelo terceiro byte `00` a `10`.
 - Um pedido ao buffer usa endereço `60 00 00 00`, tamanho `00 00 12 17` e checksum Roland.
 - A identificação usa Universal SysEx Identity Request `F0 7E <device-id> 06 01 F7`; a resposta esperada começa com `F0 7E <device-id> 06 02 41 33`, conforme o padrão de resposta do mapa FxFloorBoard.
