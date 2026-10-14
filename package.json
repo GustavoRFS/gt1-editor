@@ -14,6 +14,7 @@
     "android:prebuild": "expo prebuild --platform android",
     "web": "expo start --web --port 8081",
     "export:web": "expo export -p web",
+    "typecheck:android": "tsc --project tsconfig.android.json --ignoreDeprecations 6.0",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build"
   },

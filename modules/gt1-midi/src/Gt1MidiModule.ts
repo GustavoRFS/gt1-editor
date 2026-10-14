@@ -1,4 +1,4 @@
-import { EventEmitter, NativeModule, requireOptionalNativeModule } from 'expo';
+import { NativeModule, requireOptionalNativeModule } from 'expo';
 
 import type { Gt1MidiDevice, Gt1MidiModuleEvents } from './Gt1Midi.types';
 
@@ -11,5 +11,5 @@ declare class Gt1MidiModule extends NativeModule<Gt1MidiModuleEvents> {
 
 const Gt1Midi = requireOptionalNativeModule<Gt1MidiModule>('Gt1Midi');
 
-export const Gt1MidiEmitter = Gt1Midi ? new EventEmitter(Gt1Midi) : null;
+export const Gt1MidiEmitter = Gt1Midi;
 export default Gt1Midi;

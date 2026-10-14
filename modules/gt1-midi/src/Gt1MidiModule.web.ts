@@ -19,3 +19,4 @@ class Gt1MidiModule extends NativeModule<Gt1MidiModuleEvents> {
 }
 
 export default registerWebModule(Gt1MidiModule, 'Gt1MidiModule');
+export const Gt1MidiEmitter = null;

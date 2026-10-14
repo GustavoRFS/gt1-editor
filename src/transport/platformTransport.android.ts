@@ -1,1 +1,1 @@
-export { createAndroidMidiTransport as createMidiTransport } from './transport.android';
+export { createAndroidMidiTransport as createMidiTransport } from './androidTransport';

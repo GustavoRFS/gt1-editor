@@ -67,7 +67,7 @@ export function updatePatchParameter(patch: Gt1Patch, parameterId: string, rawVa
   const index = frames.findIndex((candidate) => candidate[9] === block && candidate[10] === 0);
   if (index < 0 || 11 + byteOffset >= frames[index].length - 2) return patch;
   frames[index][11 + byteOffset] = rawValue;
-  frames[index] = refreshFrameChecksum(frames[index]);
+  frames[index].set(refreshFrameChecksum(frames[index]));
   return { ...patch, frames, complete: frames.every((frame) => frame.length - 13 === 128) };
 }
 
@@ -81,6 +81,6 @@ export function updatePatchName(patch: Gt1Patch, name: string): Gt1Patch {
   });
   while (sanitized.length < 16) sanitized.push(0x20);
   for (let index = 0; index < 16; index += 1) frames[firstFrameIndex][11 + index] = sanitized[index];
-  frames[firstFrameIndex] = refreshFrameChecksum(frames[firstFrameIndex]);
+  frames[firstFrameIndex].set(refreshFrameChecksum(frames[firstFrameIndex]));
   return { ...patch, name: String.fromCharCode(...sanitized).trimEnd(), frames };
 }
