@@ -8,4 +8,6 @@ src-tauri/target/
 src-tauri/gen/
 /android/
 /ios/
+modules/*/android/build/
+modules/*/android/.cxx/
 *.log
