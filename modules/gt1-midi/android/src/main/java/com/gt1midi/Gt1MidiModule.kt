@@ -147,7 +147,6 @@ class Gt1MidiModule : Module() {
     runCatching { active.output.disconnect(active.receiver) }
     runCatching { active.input.close() }
     runCatching { active.output.close() }
-    runCatching { active.receiver.close() }
     runCatching { active.device.close() }
   }
 
