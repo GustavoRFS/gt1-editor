@@ -15,7 +15,12 @@
       "./plugins/with-usb-host"
     ],
     "android": {
-      "package": "dev.gt1editor.app"
+      "package": "dev.gt1editor.app",
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.INTERNET"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -26,6 +31,19 @@
     },
     "autolinking": {
       "nativeModulesDir": "./modules"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e4d1a7d8-c5a3-466a-aa6d-c4e371e72a49"
+      }
+    },
+    "owner": "gustavorfsdev",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e4d1a7d8-c5a3-466a-aa6d-c4e371e72a49"
     }
   }
 }
