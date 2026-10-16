@@ -1,6 +1,6 @@
 # GT-1 Live Editing and Persisted Patch Cache
 
-**Status:** Approved design; awaiting written-spec review
+**Status:** Approved design and written specification
 
 **Date:** 2026-10-15
 
