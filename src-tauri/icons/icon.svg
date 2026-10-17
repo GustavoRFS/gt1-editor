@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#11161a"/>
+  <rect x="82" y="82" width="860" height="860" rx="138" fill="#252e34" stroke="#46535c" stroke-width="18"/>
+  <rect x="158" y="150" width="708" height="326" rx="48" fill="#0c1114" stroke="#3a474f" stroke-width="12"/>
+  <path d="M218 313h106l64-75 90 150 84-118 54 43h202" fill="none" stroke="#49e6d4" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="none" stroke="#f4f7f8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M414 554h-48c-25 0-42 18-42 44v42c0 27 18 44 45 44h45v-62h-39"/>
+    <path d="M466 554h100M516 554v130"/>
+    <path d="M604 620h42"/>
+    <path d="M699 579l31-25v130M689 684h78"/>
+  </g>
+  <g fill="#171d21" stroke="#65747d" stroke-width="14">
+    <circle cx="300" cy="802" r="64"/>
+    <circle cx="512" cy="802" r="64"/>
+    <circle cx="724" cy="802" r="64"/>
+  </g>
+  <g fill="none" stroke="#9eabb1" stroke-width="12" stroke-linecap="round">
+    <path d="M300 758v-20"/>
+    <path d="M512 758v-20"/>
+    <path d="M724 758v-20"/>
+  </g>
+</svg>

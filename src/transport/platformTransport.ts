@@ -10,6 +10,7 @@ export function createMidiTransport(): MidiTransport {
     connect: unavailable,
     disconnect: async () => undefined,
     sendSysEx: unavailable,
+    sendMidiMessage: unavailable,
     onSysEx: () => () => undefined,
   };
 }

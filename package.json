@@ -10,16 +10,22 @@
     }
   },
   "scripts": {
-    "android": "expo start --android",
+    "android": "expo run:android",
     "android:prebuild": "expo prebuild --platform android",
-    "web": "expo start --web --port 8081",
+    "web": "expo start --web --port 8067",
     "export:web": "expo export -p web",
     "typecheck:android": "tsc --project tsconfig.android.json --ignoreDeprecations 6.0",
+    "test:gt1": "node --test tests/gt1-*.test.cjs",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build"
   },
   "dependencies": {
     "@expo/metro-runtime": "~57.0.16",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/slider": "5.2.0",
+    "@tanstack/query-async-storage-persister": "^5.104.3",
+    "@tanstack/react-query": "^5.104.3",
+    "@tanstack/react-query-persist-client": "^5.104.3",
     "@tauri-apps/api": "^2.12.3",
     "@tauri-apps/plugin-dialog": "^2.8.2",
     "@tauri-apps/plugin-fs": "^2.7.0",
@@ -33,16 +39,26 @@
     "expo-sharing": "~57.0.0",
     "expo-status-bar": "~57.0.1",
     "expo-updates": "~57.0.26",
+    "i18next": "^26.4.6",
+    "lucide-react-native": "^1.57.0",
+    "nativewind": "4.2.7",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-i18next": "^17.0.18",
     "react-native": "0.86.3",
+    "react-native-pager-view": "8.0.2",
+    "react-native-reanimated": "4.5.1",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",
-    "react-native-web": "^0.21.4"
+    "react-native-svg": "15.15.4",
+    "react-native-tab-view": "^4.3.4",
+    "react-native-web": "^0.21.4",
+    "react-native-worklets": "0.10.1"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.12.2",
     "@types/react": "~19.2.2",
+    "tailwindcss": "^3.4.19",
     "typescript": "~6.0.3"
   }
 }

@@ -3,6 +3,6 @@
   "compilerOptions": {
     "moduleSuffixes": [".android", ""]
   },
-  "files": ["app/index.tsx"],
+  "files": ["app/index.tsx", "nativewind-env.d.ts"],
   "include": []
 }

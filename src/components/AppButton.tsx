@@ -1,6 +1,6 @@
-import { Pressable, StyleSheet, View, ActivityIndicator, type StyleProp, type ViewStyle } from 'react-native';
+import { Pressable, View, ActivityIndicator, type StyleProp, type ViewStyle } from 'react-native';
 import { AppText } from './AppText';
-import { colors, radius, spacing } from '../theme';
+import { colors } from '../theme';
 
 type AppButtonProps = {
   title: string;
@@ -9,17 +9,19 @@ type AppButtonProps = {
   busy?: boolean;
   variant?: 'primary' | 'secondary' | 'quiet' | 'danger';
   style?: StyleProp<ViewStyle>;
+  className?: string;
 };
 
-const variantStyles = {
-  primary: { backgroundColor: colors.accent, borderColor: colors.accent, text: colors.accentInk },
-  secondary: { backgroundColor: colors.surfaceRaised, borderColor: colors.line, text: colors.text },
-  quiet: { backgroundColor: 'transparent', borderColor: colors.line, text: colors.textSecondary },
-  danger: { backgroundColor: colors.dangerSurface, borderColor: colors.dangerBorder, text: colors.danger },
+const variants = {
+  primary: 'border-accent bg-accent',
+  secondary: 'border-line bg-surface-raised',
+  quiet: 'border-line bg-transparent',
+  danger: 'border-danger-border bg-danger-surface',
 } as const;
 
-export function AppButton({ title, onPress, disabled = false, busy = false, variant = 'secondary', style }: AppButtonProps) {
-  const appearance = variantStyles[variant];
+const textColors = { primary: colors.accentInk, secondary: colors.text, quiet: colors.textSecondary, danger: colors.danger } as const;
+
+export function AppButton({ title, onPress, disabled = false, busy = false, variant = 'secondary', style, className }: AppButtonProps) {
   const unavailable = disabled || busy;
   return (
     <Pressable
@@ -28,19 +30,13 @@ export function AppButton({ title, onPress, disabled = false, busy = false, vari
       accessibilityState={{ disabled: unavailable, busy }}
       disabled={unavailable}
       onPress={onPress}
-      style={({ pressed }) => [styles.button, { backgroundColor: appearance.backgroundColor, borderColor: appearance.borderColor }, unavailable ? styles.disabled : pressed ? styles.pressed : null, style]}
+      className={`min-h-[42px] items-center justify-center rounded-md border px-4 py-2 active:opacity-70 ${variants[variant]} ${unavailable ? 'opacity-45' : ''} ${className ?? ''}`}
+      style={style}
     >
-      <View style={styles.content}>
-        {busy ? <ActivityIndicator size="small" color={appearance.text} /> : null}
-        <AppText variant="label" style={{ color: appearance.text, fontWeight: '700' }}>{busy ? `${title}…` : title}</AppText>
+      <View className="flex-row items-center justify-center gap-2">
+        {busy ? <ActivityIndicator size="small" color={variant === 'primary' ? colors.accentInk : variant === 'danger' ? colors.danger : colors.text} /> : null}
+        <AppText variant="label" style={{ color: textColors[variant] }}>{busy ? `${title}…` : title}</AppText>
       </View>
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  button: { minHeight: 42, alignItems: 'center', justifyContent: 'center', paddingHorizontal: spacing.lg, paddingVertical: spacing.sm, borderWidth: 1, borderRadius: radius.md, borderCurve: 'continuous' },
-  content: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
-  disabled: { opacity: 0.45 },
-  pressed: { opacity: 0.7 },
-});

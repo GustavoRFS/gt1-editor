@@ -8,6 +8,7 @@ import { Gt1ProtocolError } from './types';
 
 export type MockGt1Client = Gt1EditorClient & {
   reset(): void;
+  clear(): void;
   getUserPatches(): Gt1Patch[];
 };
 
@@ -21,8 +22,8 @@ function slotPatchId(userPatch: number): string {
 
 export function createMockGt1Client(): MockGt1Client {
   let userPatches: Gt1Patch[] = [];
-  let systemSettings: Gt1SystemSettings;
-  let currentPatch: Gt1Patch;
+  let systemSettings: Gt1SystemSettings | null = null;
+  let currentPatch: Gt1Patch | null = null;
 
   const reset = () => {
     userPatches = createMockUserPatches();
@@ -30,20 +31,30 @@ export function createMockGt1Client(): MockGt1Client {
     currentPatch = clonePatch(userPatches[10]);
   };
 
+  const clear = () => {
+    userPatches = [];
+    systemSettings = null;
+    currentPatch = null;
+  };
+
   reset();
 
   return {
     reset,
+    clear,
     getUserPatches: () => userPatches.map(clonePatch),
     async initializeEditorCommunication() {},
     async readCurrentPatch() {
+      if (!currentPatch) throw new Gt1ProtocolError('device-disconnected', 'O dispositivo mock não está ativo.');
       return clonePatch(currentPatch);
     },
     async readSystemSettings() {
+      if (!systemSettings) throw new Gt1ProtocolError('device-disconnected', 'O dispositivo mock não está ativo.');
       return { ...systemSettings };
     },
     async writeSystemSetting(_unitId: number, settingId: Gt1SystemSettingId, value: number) {
       const definition = getGt1SystemSetting(settingId);
+      if (!systemSettings) throw new Gt1ProtocolError('device-disconnected', 'O dispositivo mock não está ativo.');
       if (!Number.isInteger(value)
         || value < definition.min
         || value > definition.max

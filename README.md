@@ -35,3 +35,7 @@ A primeira tela edita o nome, o Compressor, OD/DS e pré-amplificadores A/B, con
 O aplicativo transmite MIDI SysEx e não transporta áudio. O envio ao buffer ou a um slot de usuário não recebe confirmação de gravação permanente documentada no fluxo auditado; a interface avisa que é necessário conferir o resultado na GT-1. Não houve validação com pedaleira física nem com cabo OTG Android. Os tamanhos de resposta compacta e os layouts portados precisam de confirmação em hardware; detalhes estão em [`docs/gt1-protocol.md`](docs/gt1-protocol.md).
 
 O projeto não é afiliado à Roland/BOSS. Consulte [`docs/third-party-notices.md`](docs/third-party-notices.md) e [`LICENSE`](LICENSE) para origem e licença do código derivado.
+
+## Backlog
+
+Funcionalidades planejadas estão registradas em [`docs/backlog.md`](docs/backlog.md).

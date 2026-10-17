@@ -1,1 +1,1 @@
-export { createTauriMidiTransport as createMidiTransport } from './transport.web';
+export { createTauriMidiTransport as createMidiTransport } from './tauriMidiTransport';

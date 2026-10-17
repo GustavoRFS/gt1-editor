@@ -16,3 +16,13 @@ export function setPatchDirty(ids: ReadonlySet<string>, patchId: string, dirty: 
 export function addPatches(current: Gt1Patch[], incoming: Gt1Patch[]): Gt1Patch[] {
   return [...current, ...incoming];
 }
+
+export function upsertUserPatch(current: Gt1Patch[], incoming: Gt1Patch, dirtyPatchIds: ReadonlySet<string>): Gt1Patch[] {
+  if (incoming.userPatch === undefined) return addPatches(current, [incoming]);
+  const index = current.findIndex((patch) => patch.sourceFormat === 'device' && patch.userPatch === incoming.userPatch);
+  if (index < 0) return [...current, incoming];
+  if (dirtyPatchIds.has(current[index].id)) return current;
+  const next = [...current];
+  next[index] = incoming;
+  return next;
+}

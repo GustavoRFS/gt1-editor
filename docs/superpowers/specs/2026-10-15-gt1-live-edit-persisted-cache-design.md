@@ -39,7 +39,7 @@ When a patch is selected or edited in the app, make the corresponding sound acti
 
 - Extend the editor callback to include the changed parameter ID and value. Apply the edit optimistically to the selected patch and mark it dirty. If USB is connected, send one mapped DT1 SysEx write to the GT-1 edit buffer through the existing serialized client queue. Do not send the persistent `patch_write` command for an edit.
 - Add a DT1 patch-name write for the 16-byte name at the current-buffer base. Commit the name when the text field finishes editing; keep local edits and the dirty indicator until memory save succeeds or the edit is discarded.
-- Add raw MIDI-message sending to `MidiTransport`, the Tauri Rust command, and the Android Expo module. Selecting a user slot sends Program Change on MIDI channel 1, mapping U01–U99 to program bytes 0–98, then reads the current buffer and compares the transferred patch ranges with the chosen slot.
+- Static review of the bundled Tone Studio SWF confirms user-slot selection uses a DT1 write to `setup.current_patch_no` at `00 01 00 00`, then reads the active buffer. The editor follows this path for U01–U99 and confirms the selected index before reading the active patch. The earlier Program Change and temporary-buffer-copy selection attempts are superseded by this decomp finding.
 - Selecting an imported or current-buffer patch with no user slot loads its complete supported payload into the temporary `60 00` edit buffer via the existing range-based transfer, without a destination or `patch_write` command. Read the current buffer back to verify it before changing the active selection.
 - Selecting the already active patch does not prompt or resend it.
 
@@ -47,15 +47,15 @@ When a patch is selected or edited in the app, make the corresponding sound acti
 
 - If a different drawer item is selected while the current patch is dirty, retain the pending target and show the three-option modal.
 - **Salvar alterações:** for a user patch, call `writeUserPatchAndVerify` for its current slot; for a patch without a user slot, open the existing destination-slot picker and write there. Update the persisted device query only with the verified readback. Only after verification should the app load the requested target and update the active selection.
-- **Trocar sem salvar:** discard the local overlay and activate the requested target using Program Change or temporary-buffer transfer. Clear the overlay only after the target activation verifies.
+- **Trocar sem salvar:** discard the local overlay and select a user slot through `setup.current_patch_no`; imported patches still load through temporary-buffer transfer. Clear the overlay only after the device confirms the selection/load.
 - **Cancelar:** close the modal and keep the active patch and edits unchanged.
 
 ## Error handling and protocol limits
 
 - A transport send failure leaves the local edit visible and dirty, reports an operation error, and does not claim that the pedal received the edit.
 - Individual DT1 parameter/name writes have no application-level acknowledgement in the current protocol flow; successful `sendSysEx` means the platform accepted the send, not that the pedal confirmed the value. Patch activation is confirmed separately by reading the current buffer.
-- A failed slot save/readback keeps the old selection and its pending edits. A failed Program Change or imported-patch buffer transfer keeps the old selection and does not discard the overlay.
-- If the GT-1 MIDI receive channel or Program Change map differs from the assumed channel-1 direct mapping, current-buffer readback can detect that the requested slot was not loaded. The app reports the failure; configurable MIDI channels/maps are outside this change.
+- A failed slot save/readback keeps the old selection and its pending edits. A failed `current_patch_no` confirmation or imported-patch buffer transfer keeps the old selection and does not discard the overlay.
+- The current slot mapping assumes Tone Studio's U01–U99 order, where U01 is index 0. The decompiled Tone Studio `patchChange()` writes the selected list index as two 7-bit bytes.
 - A complete imported-patch load can display the pedal's bulk-transfer message, but never persists to a user slot unless the user explicitly chooses Save and confirms a destination.
 
 ## Components expected to change

@@ -45,9 +45,21 @@ export function createAndroidMidiTransport(): MidiTransport {
         throw asTransportError(error);
       }
     },
+    async sendMidiMessage(bytes: Uint8Array): Promise<void> {
+      try {
+        await requireModule().sendMidiMessage(Array.from(bytes));
+      } catch (error) {
+        throw asTransportError(error);
+      }
+    },
     onSysEx(listener): () => void {
       if (!Gt1MidiEmitter) return () => undefined;
       const subscription = Gt1MidiEmitter.addListener('onSysEx', ({ bytes }) => listener(Uint8Array.from(bytes)));
+      return () => subscription.remove();
+    },
+    onMidi(listener): () => void {
+      if (!Gt1MidiEmitter) return () => undefined;
+      const subscription = Gt1MidiEmitter.addListener('onMidi', ({ bytes, timestamp }) => listener({ bytes: Uint8Array.from(bytes), timestamp }));
       return () => subscription.remove();
     },
     onDisconnect(listener): () => void {

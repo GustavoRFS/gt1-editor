@@ -4,6 +4,7 @@ use std::sync::{Arc, Mutex};
 use tauri::{AppHandle, Emitter};
 
 const SYSEX_EVENT: &str = "gt1-sysex";
+const MIDI_EVENT: &str = "gt1-midi";
 const MAX_SYSEX_LENGTH: usize = 8192;
 
 #[derive(Debug, Clone, Serialize)]
@@ -178,6 +179,9 @@ pub fn connect(
             &input_port,
             "GT-1 Editor input",
             move |_timestamp, message, _| {
+                if message.first() != Some(&0xf0) {
+                    let _ = app.emit(MIDI_EVENT, message.to_vec());
+                }
                 if let Ok(mut assembler) = callback_assembler.lock() {
                     for frame in assembler.push(message) {
                         let _ = app.emit(SYSEX_EVENT, frame);
@@ -226,4 +230,44 @@ pub fn send_sysex(connection: &Mutex<Option<ActiveConnection>>, data: &[u8]) -> 
         .output
         .send(data)
         .map_err(|error| MidiError::new("send-failed", error.to_string()))
+}
+
+pub fn send_midi_message(connection: &Mutex<Option<ActiveConnection>>, data: &[u8]) -> Result<(), MidiError> {
+    validate_program_change(data)?;
+    let mut state = connection
+        .lock()
+        .map_err(|_| MidiError::new("state-poisoned", "O estado MIDI do aplicativo ficou indisponível."))?;
+    let active = state
+        .as_mut()
+        .ok_or_else(|| MidiError::new("not-connected", "Nenhuma porta MIDI está conectada."))?;
+    active
+        .output
+        .send(data)
+        .map_err(|error| MidiError::new("send-failed", error.to_string()))
+}
+
+fn validate_program_change(data: &[u8]) -> Result<(), MidiError> {
+    if data.len() != 2 || !(0xc0..=0xcf).contains(&data[0]) || data[1] > 0x7f {
+        return Err(MidiError::new("invalid-midi-message", "Envie uma mensagem Program Change MIDI válida, com dois bytes."));
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::validate_program_change;
+
+    #[test]
+    fn accepts_two_byte_program_change() {
+        assert!(validate_program_change(&[0xc0, 98]).is_ok());
+        assert!(validate_program_change(&[0xcf, 0]).is_ok());
+    }
+
+    #[test]
+    fn rejects_other_midi_messages_and_invalid_data() {
+        assert!(validate_program_change(&[0xb0, 1]).is_err());
+        assert!(validate_program_change(&[0xc0, 0x80]).is_err());
+        assert!(validate_program_change(&[0xc0]).is_err());
+        assert!(validate_program_change(&[0xc0, 0, 0]).is_err());
+    }
 }
