@@ -11,15 +11,16 @@ import '../global.css';
 function AppStack() {
   const isRestoring = useIsRestoring();
 
-  if (isRestoring) {
-    return (
-      <View className="flex-1 items-center justify-center bg-canvas">
-        <ActivityIndicator color={colors.accent} />
-      </View>
-    );
-  }
-
-  return <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.canvas } }} />;
+  return (
+    <View className="flex-1">
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.canvas } }} />
+      {isRestoring && (
+        <View className="absolute inset-0 items-center justify-center bg-canvas">
+          <ActivityIndicator color={colors.accent} />
+        </View>
+      )}
+    </View>
+  );
 }
 
 export default function RootLayout() {
